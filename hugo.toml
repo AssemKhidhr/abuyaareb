@@ -1,0 +1,167 @@
+baseURL = "https://abuyaareb.org/"
+languageCode = "ar"
+defaultContentLanguage = "ar"
+languageDirection = "rtl"
+title = "أبو يعرب المرزوقي"
+theme = "stack"
+canonifyURLs = "true"
+
+[languages]
+  [languages.ar]
+    languageName = "العربية"
+    languageCode = "ar"
+    languageDirection = "rtl"
+    weight = 1
+
+[module.hugoVersion]
+extended = true
+min = "0.87.0"
+
+[params]
+mainSections = [ "post" ]
+featuredImageField = "image"
+rssFullContent = true
+rtl = "true"
+
+  [params.footer]
+  customText = "نَسْبُ الـمُصنَّف، الترخيص بالمثل 4.0 دولي.<br> جميع مشتملات الموقع مرخص استخدامها كما هو منصوص عليه <a href=https://creativecommons.org/licenses/by-sa/4.0/deed.ar> هنا </a> .ومن ثم فلمستخدمها مطلق الحرية في نشر المحتوى أو تعديله أو الإضافة عليه بشرط إعزائه إلى صاحبه ثم نشره بذات الرخصة."
+
+  [params.dateFormat]
+  published = "02-01-2006"
+  lastUpdated = "02-01-2006"
+
+  [params.sidebar]
+  compact = false
+  subtitle = "الوعي العربي بقضايا الأمة"
+
+    [params.sidebar.avatar]
+    enabled = true
+    local = true
+    src = "images/AnadoluFederasyonu1.jpg"
+
+  [params.article]
+  headingAnchor = true
+  math = false
+  toc = true
+  readingTime = true
+
+    [params.article.license]
+    enabled = true
+    default = "Licensed under CC BY-SA 4.0"
+
+  [params.comments]
+  enabled = true
+  provider = "disqus"
+
+    [params.comments.disqusjs]
+
+    [params.comments.utterances]
+    issueTerm = "pathname"
+
+    [params.comments.beaudar]
+    issueTerm = "pathname"
+
+    [params.comments.remark42]
+
+    [params.comments.vssue]
+    autoCreateIssue = false
+
+    [params.comments.waline]
+    emoji = [ "https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo" ]
+    requiredMeta = [ "nick", "mail" ]
+
+      [params.comments.waline.locale]
+      admin = "Admin"
+
+    [params.comments.twikoo]
+
+    [params.comments.giscus]
+    reactionsEnabled = 1
+    emitMetadata = 0
+
+    [params.comments.gitalk]
+
+    [params.comments.cusdis]
+
+  [params.widgets]
+  homepage = [ 
+    { type = "search" },
+    { type = "archives" },
+  ]
+  page = [ 
+    { type = "toc" },
+  ]
+
+[params.opengraph.twitter]
+card = "summary_large_image"
+
+[params.defaultImage.opengraph]
+enabled = false
+local = false
+
+  [params.colorScheme]
+  toggle = true
+  default = "auto"
+
+[params.imageProcessing.cover]
+enabled = true
+
+[params.imageProcessing.content]
+enabled = true
+
+[menu]
+main = [ ]
+
+  [[menu.social]]
+  identifier = "github"
+  name = "GitHub"
+  url = "https://github.com/AssemKhidhr/abuyaareb"
+
+    [menu.social.params]
+    icon = "brand-github"
+
+  [[menu.social]]
+  identifier = "Telegram"
+  name = "Telegram"
+  url = "https://t.me/+cXHlTQi6xzZhZDY0"
+
+    [menu.social.params]
+    icon = "Telegram_logo"
+
+[related]
+includeNewer = true
+threshold = 60
+toLower = false
+
+  [[related.indices]]
+  name = "tags"
+  weight = 100
+
+  [[related.indices]]
+  name = "categories"
+  weight = 200
+
+[markup.goldmark.extensions.passthrough]
+enable = true
+
+  [markup.goldmark.extensions.passthrough.delimiters]
+  block = [ [ "\\[", "\\]" ], [ "$$", "$$" ] ]
+  inline = [ [ "\\(", "\\)" ] ]
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[markup.tableOfContents]
+endLevel = 4
+ordered = true
+startLevel = 2
+
+[markup.highlight]
+noClasses = false
+codeFences = true
+guessSyntax = true
+lineNoStart = 1
+lineNos = true
+lineNumbersInTable = true
+tabWidth = 4
+

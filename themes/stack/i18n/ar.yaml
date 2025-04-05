@@ -1,0 +1,81 @@
+toggleMenu:
+    other: أخف القائمة
+
+darkMode:
+    other: الوضع الداكن
+
+list:
+    page:
+        one: صفحة واحدة
+        two: صفحتان
+        few: "{{ .Count }} صفحات"
+        other: "{{ .Count }} صفحة"
+
+    section:
+        other: قسم
+
+    subsection:
+        one: قسم فرعي
+        other: أقسام فرعية
+
+article:
+    back:
+        other: خلف
+
+    tableOfContents:
+        other: جدول المحتويات
+
+    relatedContent:
+        other: محتوى مشابه
+        
+    lastUpdatedOn:
+        other: آخر تحديث
+
+    readingTime:
+        one: تقرأ في دقيقة
+        two: تقرأ في دقيقتين
+        few: "تقرأ في {{ .Count }} دقائق"
+        other: "تقرأ في {{ .Count }} دقيقة"
+
+notFound:
+    title:
+        other: غير موجود
+
+    subtitle:
+        other: تعذر العثور على الصفحة المطلوبة.
+
+widget:
+    archives:
+        title:
+            other: الأرشيفات
+
+        more:
+            other: المزيد
+
+    tagCloud:
+        title:
+            other: وسوم
+            
+    categoriesCloud:
+        title:
+            other: التصنيفات
+
+search:
+    title:
+        other: بحث
+
+    placeholder:
+        other: اكتب...
+
+    resultTitle:
+      one: "صفحة واحدة في (#TIME_SECONDS ثانية)"
+      two: "صفحتان في (#TIME_SECONDS ثانية)"
+      few: "#PAGES_COUNT صفحات في (#TIME_SECONDS ثانية)"
+      other: "#PAGES_COUNT صفحة في (#TIME_SECONDS ثانية)"
+
+footer:
+    builtWith:
+        other: "بني بواسطة {{ .Generator }}"
+        
+    designedBy:
+        other:  "التصميم اسمه{{ .Theme }} ونفذه {{ .DesignedBy }}"
