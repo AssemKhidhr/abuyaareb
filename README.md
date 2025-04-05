@@ -1,2 +1,2 @@
 # abuyaareb
-A Hugo project containing a comprehensive archive of all works by Abu Yaareb Marzouki.
+A Hugo-based static website that includes all works of Abu Yaareb Marzouki.
