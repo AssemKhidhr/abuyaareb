@@ -86,7 +86,7 @@ rtl = "true"
   [params.widgets]
   homepage = [ 
     { type = "search" },
-    { type = "archives" },
+    { type = "archives", params = { limit = 25 } },
   ]
   page = [ 
     { type = "toc" },
