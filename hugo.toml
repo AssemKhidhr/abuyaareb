@@ -4,7 +4,6 @@ defaultContentLanguage = "ar"
 languageDirection = "rtl"
 title = "أبو يعرب المرزوقي"
 theme = "stack"
-canonifyURLs = "true"
 
 [languages]
   [languages.ar]
