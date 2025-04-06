@@ -10,7 +10,7 @@ aliases:
 license: نَسْبُ الـمُصنَّف، الترخيص بالمثل 4.0 دولي.
 menu:
     main: 
-        weight: -90
+        weight: -80
         params:
             icon: user
 ---

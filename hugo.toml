@@ -4,6 +4,12 @@ defaultContentLanguage = "ar"
 languageDirection = "rtl"
 title = "أبو يعرب المرزوقي"
 theme = "stack"
+disableKinds = [ "RSS" ]
+
+[params]
+mainSections = [ "post" ]
+featuredImageField = "image"
+rtl = "true"
 
 [languages]
   [languages.ar]
@@ -15,13 +21,6 @@ theme = "stack"
 [module.hugoVersion]
 extended = true
 min = "0.87.0"
-
-[params]
-mainSections = [ "post" ]
-featuredImageField = "image"
-rssFullContent = false
-rtl = "true"
-disableKinds = ["RSS"]
 
   [params.footer]
   customText = "نَسْبُ الـمُصنَّف، الترخيص بالمثل 4.0 دولي.<br> جميع مشتملات الموقع مرخص استخدامها كما هو منصوص عليه <a href=https://creativecommons.org/licenses/by-sa/4.0/deed.ar> هنا </a> .ومن ثم فلمستخدمها مطلق الحرية في نشر المحتوى أو تعديله أو الإضافة عليه بشرط إعزائه إلى صاحبه ثم نشره بذات الرخصة."
