@@ -91,15 +91,21 @@ let Stack = {
             });
         });
 
-        new StackColorScheme(document.getElementById('dark-mode-toggle'));
+        const toggleEl = document.getElementById('dark-mode-toggle');
+        if (toggleEl) {
+            new StackColorScheme(toggleEl);
+        } else {
+            console.warn('Dark mode toggle element not found');
+        }
     }
 }
 
 window.addEventListener('load', () => {
-    setTimeout(function () {
-        Stack.init();
-    }, 0);
-})
+    setTimeout(() => Stack.init(), 0);
+});
+window.addEventListener('DOMContentLoaded', () => {  // New addition
+    setTimeout(() => Stack.init(), 0);
+});
 
 declare global {
     interface Window {

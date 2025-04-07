@@ -1,1 +1,15 @@
 /* Place your custom SCSS in HUGO_SITE_FOLDER/assets/scss/custom.scss */
+// Import Amiri font
+@import url("https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap");
+
+// Override font variables
+:root {
+    --base-font-family: "Amiri", serif;
+    --article-font-family: "Amiri", serif;
+    --code-font-family: "Amiri", Menlo, Monaco, Consolas, "Courier New", monospace; // Optional
+}
+
+// Ensure global application
+body {
+    font-family: "Amiri", serif;
+}

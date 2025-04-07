@@ -7,7 +7,6 @@ aliases:
   - about-us
   - about-hugo
   - contact
-license: نَسْبُ الـمُصنَّف، الترخيص بالمثل 4.0 دولي.
 menu:
     main: 
         weight: -80
