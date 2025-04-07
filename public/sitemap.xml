@@ -2,10 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://abuyaareb.org/post/books/</loc>
+    <loc>https://abuyaareb.org/page/publications/</loc>
     <lastmod>2025-04-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://abuyaareb.org/post/</loc>
+    <loc>https://abuyaareb.org/page/</loc>
+    <lastmod>2025-04-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://abuyaareb.org/page/publications/%D9%81%D9%87%D8%B1%D8%B3-%D9%85%D8%AE%D8%AA%D8%B5%D8%B1/</loc>
+    <lastmod>2025-04-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://abuyaareb.org/page/publications/%D9%81%D9%87%D8%B1%D8%B3-%D9%85%D8%B7%D9%88%D9%84/</loc>
     <lastmod>2025-04-07T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://abuyaareb.org/</loc>
@@ -17,7 +23,7 @@
     <loc>https://abuyaareb.org/post/articles/</loc>
     <lastmod>2025-04-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://abuyaareb.org/page/</loc>
+    <loc>https://abuyaareb.org/post/</loc>
     <lastmod>2025-04-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://abuyaareb.org/page/search/</loc>
