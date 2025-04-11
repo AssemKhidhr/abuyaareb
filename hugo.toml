@@ -140,6 +140,9 @@ toLower = false
   name = "categories"
   weight = 200
 
+[markup.goldmark.extensions.superscript]
+enable = true
+
 [markup.goldmark.extensions.passthrough]
 enable = true
 
