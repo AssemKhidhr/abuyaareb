@@ -31,7 +31,7 @@ min = "0.87.0"
 
   [params.sidebar]
   compact = false
-  subtitle = "الوعي العربي بقضايا الأمة"
+  subtitle = "فيلسوف كوني بلسان عربي"
 
     [params.sidebar.avatar]
     enabled = true
