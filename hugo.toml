@@ -46,41 +46,11 @@ min = "0.87.0"
 
     [params.article.license]
     enabled = true
-    default = "Licensed under CC BY-SA 4.0"
+    default = "نَسْبُ الـمُصنَّف، الترخيص بالمثل 4.0 دولي"
 
   [params.comments]
   enabled = true
   provider = "disqus"
-
-    [params.comments.disqusjs]
-
-    [params.comments.utterances]
-    issueTerm = "pathname"
-
-    [params.comments.beaudar]
-    issueTerm = "pathname"
-
-    [params.comments.remark42]
-
-    [params.comments.vssue]
-    autoCreateIssue = false
-
-    [params.comments.waline]
-    emoji = [ "https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo" ]
-    requiredMeta = [ "nick", "mail" ]
-
-      [params.comments.waline.locale]
-      admin = "Admin"
-
-    [params.comments.twikoo]
-
-    [params.comments.giscus]
-    reactionsEnabled = 1
-    emitMetadata = 0
-
-    [params.comments.gitalk]
-
-    [params.comments.cusdis]
 
   [params.widgets]
   homepage = [ 
