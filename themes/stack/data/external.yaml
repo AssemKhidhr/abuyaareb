@@ -36,9 +36,9 @@ KaTeX:
       defer: true
 
 Cactus:
-    - src: https://latest.cactus.chat/cactus.js
+    - src: https://w3s.link/ipfs/QmSiWN27KZZ1XE32jKwifBnS3nWTUcFGNArKzur2nmDgoL/v0.13.0/cactus.js
       integrity:
       type: script
-    - src: https://latest.cactus.chat/style.css
+    - src: https://w3s.link/ipfs/QmSiWN27KZZ1XE32jKwifBnS3nWTUcFGNArKzur2nmDgoL/v0.13.0/style.css
       integrity:
       type: style

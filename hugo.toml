@@ -50,7 +50,12 @@ min = "0.87.0"
 
   [params.comments]
   enabled = true
-  provider = "disqus"
+  provider = "cactus"
+
+    [params.comments.cactus]
+    serverName = "cactus.chat"
+    siteName = "abuyaareb"
+    defaultHomeserverUrl = "https://matrix.cactus.chat:8448"
 
   [params.widgets]
   homepage = [ 
