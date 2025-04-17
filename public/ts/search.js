@@ -30,7 +30,7 @@
       this.resultTitle = resultTitle;
       this.resultTitleTemplate = resultTitleTemplate;
       if (this.input.value.trim() !== "") {
-        this.doSearch(this.input.value.split(" "));
+        this.doSearch(this.input.value.trim());
       } else {
         this.handleQueryString();
       }
@@ -83,13 +83,10 @@
       }
       return resultArray.join("");
     }
-    async searchKeywords(keywords) {
+    async searchKeywords(query) {
       const rawData = await this.getData();
       const results = [];
-      const regex = new RegExp(keywords.filter((v, index, arr) => {
-        arr[index] = escapeRegExp(v);
-        return v.trim() !== "";
-      }).join("|"), "gi");
+      const regex = new RegExp(escapeRegExp(query), "gi");
       for (const item of rawData) {
         const titleMatches = [], contentMatches = [];
         let result = {
@@ -124,9 +121,9 @@
         return b.matchCount - a.matchCount;
       });
     }
-    async doSearch(keywords) {
+    async doSearch(query) {
       const startTime = performance.now();
-      const results = await this.searchKeywords(keywords);
+      const results = await this.searchKeywords(query);
       this.clear();
       for (const item of results) {
         this.list.append(_Search.render(item));
@@ -152,15 +149,15 @@
       let lastSearch = "";
       const eventHandler = (e) => {
         e.preventDefault();
-        const keywords = this.input.value.trim();
-        _Search.updateQueryString(keywords, true);
-        if (keywords === "") {
+        const query = this.input.value.trim();
+        _Search.updateQueryString(query, true);
+        if (query === "") {
           lastSearch = "";
           return this.clear();
         }
-        if (lastSearch === keywords) return;
-        lastSearch = keywords;
-        this.doSearch(keywords.split(" "));
+        if (lastSearch === query) return;
+        lastSearch = query;
+        this.doSearch(query);
       };
       this.input.addEventListener("input", eventHandler);
       this.input.addEventListener("compositionend", eventHandler);
@@ -176,20 +173,20 @@
     }
     handleQueryString() {
       const pageURL = new URL(window.location.toString());
-      const keywords = pageURL.searchParams.get("keyword");
-      this.input.value = keywords;
-      if (keywords) {
-        this.doSearch(keywords.split(" "));
+      const query = pageURL.searchParams.get("keyword");
+      this.input.value = query;
+      if (query) {
+        this.doSearch(query);
       } else {
         this.clear();
       }
     }
-    static updateQueryString(keywords, replaceState = false) {
+    static updateQueryString(query, replaceState = false) {
       const pageURL = new URL(window.location.toString());
-      if (keywords === "") {
+      if (query === "") {
         pageURL.searchParams.delete("keyword");
       } else {
-        pageURL.searchParams.set("keyword", keywords);
+        pageURL.searchParams.set("keyword", query);
       }
       if (replaceState) {
         window.history.replaceState("", "", pageURL.toString());

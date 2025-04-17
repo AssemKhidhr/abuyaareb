@@ -55,9 +55,8 @@ class Search {
 
         /// Check if there's already value in the search input
         if (this.input.value.trim() !== '') {
-            this.doSearch(this.input.value.split(' '));
-        }
-        else {
+            this.doSearch(this.input.value.trim());
+        } else {
             this.handleQueryString();
         }
 
@@ -88,16 +87,11 @@ class Search {
         while (i < matches.length) {
             const item = matches[i];
 
-            /// item.start >= lastIndex (equal only for the first iteration)
-            /// because of the while loop that comes after, iterating over variable j
-
             if (ellipsis && item.start - offset > lastIndex) {
                 resultArray.push(`${replaceHTMLEnt(str.substring(lastIndex, lastIndex + offset))} [...] `);
                 resultArray.push(`${replaceHTMLEnt(str.substring(item.start - offset, item.start))}`);
                 charCount += offset * 2;
-            }
-            else {
-                /// If the match is too close to the end of last match, don't add ellipsis
+            } else {
                 resultArray.push(replaceHTMLEnt(str.substring(lastIndex, item.start)));
                 charCount += item.start - lastIndex;
             }
@@ -105,8 +99,6 @@ class Search {
             let j = i + 1,
                 end = item.end;
 
-            /// Include as many matches as possible
-            /// [item.start, end] is the range of the match
             while (j < matches.length && matches[j].start <= end) {
                 end = Math.max(matches[j].end, end);
                 ++j;
@@ -121,7 +113,6 @@ class Search {
             if (ellipsis && charCount > charLimit) break;
         }
 
-        /// Add the rest of the string
         if (lastIndex < str.length) {
             let end = str.length;
             if (ellipsis) end = Math.min(end, lastIndex + offset);
@@ -136,14 +127,11 @@ class Search {
         return resultArray.join('');
     }
 
-    private async searchKeywords(keywords: string[]) {
+    private async searchKeywords(query: string) {
         const rawData = await this.getData();
         const results: pageData[] = [];
 
-        const regex = new RegExp(keywords.filter((v, index, arr) => {
-            arr[index] = escapeRegExp(v);
-            return v.trim() !== '';
-        }).join('|'), 'gi');
+        const regex = new RegExp(escapeRegExp(query), 'gi');
 
         for (const item of rawData) {
             const titleMatches: match[] = [],
@@ -153,7 +141,7 @@ class Search {
                 ...item,
                 preview: '',
                 matchCount: 0
-            }
+            };
 
             const contentMatchAll = item.content.matchAll(regex);
             for (const match of Array.from(contentMatchAll)) {
@@ -174,9 +162,7 @@ class Search {
             if (titleMatches.length > 0) result.title = Search.processMatches(result.title, titleMatches, false);
             if (contentMatches.length > 0) {
                 result.preview = Search.processMatches(result.content, contentMatches);
-            }
-            else {
-                /// If there are no matches in the content, use the first 140 characters as preview
+            } else {
                 result.preview = replaceHTMLEnt(result.content.substring(0, 140));
             }
 
@@ -184,16 +170,15 @@ class Search {
             if (result.matchCount > 0) results.push(result);
         }
 
-        /// Result with more matches appears first
         return results.sort((a, b) => {
             return b.matchCount - a.matchCount;
         });
     }
 
-    private async doSearch(keywords: string[]) {
+    private async doSearch(query: string) {
         const startTime = performance.now();
 
-        const results = await this.searchKeywords(keywords);
+        const results = await this.searchKeywords(query);
         this.clear();
 
         for (const item of results) {
@@ -211,7 +196,6 @@ class Search {
 
     public async getData() {
         if (!this.data) {
-            /// Not fetched yet
             const jsonURL = this.form.dataset.json;
             this.data = await fetch(jsonURL).then(res => res.json());
             const parser = new DOMParser();
@@ -229,20 +213,20 @@ class Search {
 
         const eventHandler = (e) => {
             e.preventDefault();
-            const keywords = this.input.value.trim();
+            const query = this.input.value.trim();
 
-            Search.updateQueryString(keywords, true);
+            Search.updateQueryString(query, true);
 
-            if (keywords === '') {
+            if (query === '') {
                 lastSearch = '';
                 return this.clear();
             }
 
-            if (lastSearch === keywords) return;
-            lastSearch = keywords;
+            if (lastSearch === query) return;
+            lastSearch = query;
 
-            this.doSearch(keywords.split(' '));
-        }
+            this.doSearch(query);
+        };
 
         this.input.addEventListener('input', eventHandler);
         this.input.addEventListener('compositionend', eventHandler);
@@ -255,37 +239,34 @@ class Search {
 
     private bindQueryStringChange() {
         window.addEventListener('popstate', (e) => {
-            this.handleQueryString()
-        })
+            this.handleQueryString();
+        });
     }
 
     private handleQueryString() {
         const pageURL = new URL(window.location.toString());
-        const keywords = pageURL.searchParams.get('keyword');
-        this.input.value = keywords;
+        const query = pageURL.searchParams.get('keyword');
+        this.input.value = query;
 
-        if (keywords) {
-            this.doSearch(keywords.split(' '));
-        }
-        else {
-            this.clear()
+        if (query) {
+            this.doSearch(query);
+        } else {
+            this.clear();
         }
     }
 
-    private static updateQueryString(keywords: string, replaceState = false) {
+    private static updateQueryString(query: string, replaceState = false) {
         const pageURL = new URL(window.location.toString());
 
-        if (keywords === '') {
-            pageURL.searchParams.delete('keyword')
-        }
-        else {
-            pageURL.searchParams.set('keyword', keywords);
+        if (query === '') {
+            pageURL.searchParams.delete('keyword');
+        } else {
+            pageURL.searchParams.set('keyword', query);
         }
 
         if (replaceState) {
             window.history.replaceState('', '', pageURL.toString());
-        }
-        else {
+        } else {
             window.history.pushState('', '', pageURL.toString());
         }
     }
@@ -328,6 +309,6 @@ window.addEventListener('load', () => {
             resultTitleTemplate: window.searchResultTitleTemplate
         });
     }, 0);
-})
+});
 
 export default Search;
