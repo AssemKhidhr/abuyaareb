@@ -22,8 +22,24 @@ rtl = "true"
 extended = true
 min = "0.87.0"
 
+[pagination]
+disableAliases = true
+
+  [pagination.home]
+  pagerSize = 50
+
+  [pagination.section]
+  pagerSize = 50
+
+  [pagination.tag]
+  pagerSize = 50
+
+  [pagination.category]
+  pagerSize = 50
+
   [params.footer]
-  customText = "نَسْبُ الـمُصنَّف، الترخيص بالمثل 4.0 دولي.<br> جميع مشتملات الموقع مرخص استخدامها كما هو منصوص عليه <a href=https://creativecommons.org/licenses/by-sa/4.0/deed.ar>هنا</a>، مالم يذكر العكس. ومن ثم فلمستخدمها مطلق الحرية في نشر المحتوى أو تعديله أو الإضافة عليه بشرط إعزائه إلى صاحبه ثم نشره بذات الرخصة."
+  since = 2025
+  customText = "يقوم على الموقع عاصم أشرف خضر مع مجموعة من طلاب الأستاذ ومتابعيه.<br>نَسْبُ الـمُصنَّف، الترخيص بالمثل 4.0 دولي.<br> جميع مشتملات الموقع مرخص استخدامها كما هو منصوص عليه <a href=https://creativecommons.org/licenses/by-sa/4.0/deed.ar>هنا</a>، مالم يذكر العكس. ومن ثم فلمستخدمها مطلق الحرية في نشر المحتوى أو تعديله أو الإضافة عليه بشرط إعزائه إلى صاحبه ثم نشره بذات الرخصة."
 
   [params.dateFormat]
   published = "02-01-2006"
@@ -61,9 +77,11 @@ min = "0.87.0"
   homepage = [ 
     { type = "search" },
     { type = "archives", params = { limit = 25 } },
+    { type = "categories"}
   ]
   page = [ 
     { type = "toc" },
+    { type = "tag-cloud"},
   ]
 
 [params.opengraph.twitter]

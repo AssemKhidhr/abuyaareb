@@ -1,8 +1,13 @@
 ---
 title: "بيجيدا Pegida"
-date: "2015-01-29"
-lastmod: "2015-01-29"
-description: ""
+description: ''
+date: '2015-01-29'
+lastmod: '2015-01-29'
+categories:
+- الاستراتيجيا السياسية
+tags: []
+keywords: []
+
 ---
 # بيجيداPegida
 

@@ -1,8 +1,27 @@
 ---
 title: "عـــــــــوالـــــم بمقيــــــــاس الإنسان – نحو إبستمولوجية الترجمة – Welten nach menschlichem Maß – Zur Epistemologie der Übersetzung"
-date: "2017-09-08"
+date: '2017-09-08'
 lastmod: 2025-04-05
-description: ""
+categories:
+- نظرية المعرفة
+tags:
+- erfahrung und
+- الوعي بالوجود
+- bde rütten
+- objektiven erkenntnis
+- im seienden
+keywords:
+- erfahrung und
+- الوعي بالوجود
+- bde rütten
+- objektiven erkenntnis
+- im seienden
+- physique contemporaine
+- epistemologie der
+- epistemologie und
+- grenzen der
+- interpretationswelten gegenwartsphilosophie
+
 ---
 **لتصفح المقال في كتيب أو لتحميل وثيقة و-ن-م إضغط على الروابط أسفله** **عوالم بمقياس الإنسان  
 نحو ابستيمولوجية الترجمة**
