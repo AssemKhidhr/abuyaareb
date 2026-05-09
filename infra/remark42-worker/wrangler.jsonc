@@ -1,0 +1,46 @@
+{
+  "name": "abuyaareb-remark42",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-05-09",
+
+  "containers": [
+    {
+      "class_name": "Remark42Container",
+      "image": "./Dockerfile",
+      "instance_type": "lite",
+      "max_instances": 1
+    }
+  ],
+
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "REMARK42_CONTAINER",
+        "class_name": "Remark42Container"
+      }
+    ]
+  },
+
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["Remark42Container"]
+    }
+  ],
+
+  "routes": [
+    {
+      "pattern": "abuyaareb.org/remark42*",
+      "zone_name": "abuyaareb.org"
+    }
+  ],
+
+  "vars": {
+    "REMARK_URL": "https://abuyaareb.org/remark42",
+    "SITE": "abuyaareb",
+    "AUTH_ANON": "true",
+    "STORE_BOLT_PATH": "/srv/var/db",
+    "BACKUP_PATH": "/srv/var/backup",
+    "BUCKET_NAME": "abuyaareb-remark42"
+  }
+}

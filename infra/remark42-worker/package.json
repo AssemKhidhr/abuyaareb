@@ -1,0 +1,15 @@
+{
+  "name": "abuyaareb-remark42-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@cloudflare/containers": "latest",
+    "wrangler": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest"
+  }
+}
