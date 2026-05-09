@@ -1,11 +1,11 @@
 ---
 title: "بحث"
-layout: "pagefind-search"
 slug: "search"
+layout: "search"
 menu:
-  main:
-    name: "بحث"
-    weight: 90
+    main: 
+        weight: 90
+        params:
+            icon: search
 ---
-
 <div id="search"></div>
