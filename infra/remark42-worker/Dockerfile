@@ -1,14 +1,5 @@
-FROM umputun/remark42:latest
-
-USER root
-
-COPY start-remark42.sh /start-remark42.sh
-
-# Important when editing on Windows:
-# remove CRLF line endings and make the script executable.
-RUN sed -i 's/\r$//' /start-remark42.sh \
-    && chmod +x /start-remark42.sh
+FROM busybox:1.36
 
 EXPOSE 8080
 
-ENTRYPOINT ["/bin/sh", "/start-remark42.sh"]
+CMD ["httpd", "-f", "-p", "0.0.0.0:8080", "-h", "/www"]
