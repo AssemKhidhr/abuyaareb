@@ -65,13 +65,14 @@ disableAliases = true
     default = "نَسْبُ الـمُصنَّف، الترخيص بالمثل 4.0 دولي"
 
   [params.comments]
-  enabled = true
-  provider = "cactus"
+  enabled = false
+  provider = ""
 
-    [params.comments.cactus]
-    serverName = "cactus.chat"
-    siteName = "abuyaareb"
-    defaultHomeserverUrl = "https://matrix.cactus.chat:8448"
+  [params.remark42]
+  enabled = false
+  host = "https://abuyaareb.org/remark42"
+  site = "abuyaareb"
+  theme = "light"
 
   [params.widgets]
   homepage = [ 

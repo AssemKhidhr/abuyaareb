@@ -1,0 +1,32 @@
+{{- if and .Site.Params.remark42.enabled (not .Params.comments_disabled) -}}
+{{- $host := strings.TrimRight "/" .Site.Params.remark42.host -}}
+{{- $site := default "abuyaareb" .Site.Params.remark42.site -}}
+{{- $theme := default "light" .Site.Params.remark42.theme -}}
+
+<section class="article-comments">
+    <div id="remark42"></div>
+</section>
+
+<script>
+    var remark_config = {
+        host: "{{ $host }}",
+        site_id: "{{ $site }}",
+        components: ["embed"],
+        url: "{{ .Permalink }}",
+        page_title: "{{ .Title }}",
+        locale: "ar",
+        theme: "{{ $theme }}"
+    };
+</script>
+
+<script>
+(function(c) {
+    for (var i = 0; i < c.length; i++) {
+        var d = document, s = d.createElement("script");
+        s.src = remark_config.host + "/web/" + c[i] + ".js";
+        s.defer = true;
+        (d.head || d.body).appendChild(s);
+    }
+})(remark_config.components || ["embed"]);
+</script>
+{{- end -}}
