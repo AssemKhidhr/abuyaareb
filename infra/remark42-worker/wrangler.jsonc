@@ -1,48 +1,6 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "abuyaareb-remark42",
-  "main": "src/index.ts",
-  "compatibility_date": "2026-05-01",
-  "compatibility_flags": ["nodejs_compat"],
-
-  "observability": {
-    "enabled": true
-  },
-
-  "vars": {
-    "SITE": "abuyaareb",
-    "REMARK_URL": "https://abuyaareb.org/remark42",
-    "BUCKET_NAME": "abuyaareb-remark42"
-  },
-
-  "containers": [
-    {
-      "class_name": "Remark42Container",
-      "image": "./Dockerfile",
-      "max_instances": 1
-    }
-  ],
-
-  "durable_objects": {
-    "bindings": [
-      {
-        "name": "REMARK42_CONTAINER",
-        "class_name": "Remark42Container"
-      }
-    ]
-  },
-
-  "migrations": [
-    {
-      "tag": "v1",
-      "new_sqlite_classes": ["Remark42Container"]
-    }
-  ],
-
-  "routes": [
-    {
-      "pattern": "abuyaareb.org/remark42*",
-      "zone_name": "abuyaareb.org"
-    }
-  ]
+"vars": {
+  "SITE": "abuyaareb",
+  "REMARK_URL": "https://abuyaareb.org/remark42",
+  "R2_BUCKET_NAME": "abuyaareb-remark42",
+  "R2_ACCOUNT_ID": "33606ed630b3c3825a4ed1588ffcc2f1"
 }

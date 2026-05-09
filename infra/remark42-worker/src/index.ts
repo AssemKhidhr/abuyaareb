@@ -6,11 +6,14 @@ interface Env {
   REMARK42_CONTAINER: DurableObjectNamespace<Remark42Container>;
 
   SECRET: string;
-  R2_ENDPOINT?: string;
-  AWS_ACCESS_KEY_ID?: string;
-  AWS_SECRET_ACCESS_KEY?: string;
 
-  BUCKET_NAME?: string;
+  AWS_ACCESS_KEY_ID: string;
+  AWS_SECRET_ACCESS_KEY: string;
+
+  R2_BUCKET_NAME?: string;
+  R2_ACCOUNT_ID?: string;
+  R2_ENDPOINT?: string;
+
   REMARK_URL?: string;
   SITE?: string;
 }
@@ -28,29 +31,32 @@ class Remark42Container extends Container {
     AUTH_ANON: "true",
 
     STORE_TYPE: "bolt",
-    STORE_BOLT_PATH: "/srv/var/db",
-    BACKUP_PATH: "/srv/var/backup",
+    STORE_BOLT_PATH: "/mnt/r2/remark42/db",
+    BACKUP_PATH: "/mnt/r2/remark42/backup",
 
     SECRET: this.env.SECRET,
 
-    // Kept for later R2/FUSE phase, but unused by the no-FUSE script.
-    BUCKET_NAME: this.env.BUCKET_NAME || "abuyaareb-remark42",
-    R2_ENDPOINT: this.env.R2_ENDPOINT || "",
-    AWS_ACCESS_KEY_ID: this.env.AWS_ACCESS_KEY_ID || "",
-    AWS_SECRET_ACCESS_KEY: this.env.AWS_SECRET_ACCESS_KEY || "",
+    R2_BUCKET_NAME: this.env.R2_BUCKET_NAME || "abuyaareb-remark42",
+    R2_ACCOUNT_ID: this.env.R2_ACCOUNT_ID || "",
+    R2_ENDPOINT:
+      this.env.R2_ENDPOINT ||
+      `https://${this.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+
+    AWS_ACCESS_KEY_ID: this.env.AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY: this.env.AWS_SECRET_ACCESS_KEY,
     AWS_REGION: "auto",
   };
 
   override onStart() {
-    console.log("Remark42 container lifecycle: started");
+    console.log("Remark42 R2 container lifecycle: started");
   }
 
   override onStop(params: { exitCode?: number; reason?: string }) {
-    console.log("Remark42 container lifecycle: stopped", params);
+    console.log("Remark42 R2 container lifecycle: stopped", params);
   }
 
   override onError(error: unknown) {
-    console.error("Remark42 container lifecycle: error", error);
+    console.error("Remark42 R2 container lifecycle: error", error);
   }
 }
 
@@ -86,24 +92,29 @@ export default {
     const rewrittenRequest = rewriteForContainer(request);
     const rewrittenUrl = new URL(rewrittenRequest.url);
 
-    console.log("Routing request to Remark42 container", {
+    console.log("Routing request to Remark42 R2 container", {
       originalPath: originalUrl.pathname,
       rewrittenPath: rewrittenUrl.pathname,
       hasSecret: Boolean(env.SECRET),
+      hasAccessKey: Boolean(env.AWS_ACCESS_KEY_ID),
+      hasSecretKey: Boolean(env.AWS_SECRET_ACCESS_KEY),
+      hasR2BucketName: Boolean(env.R2_BUCKET_NAME),
+      hasR2AccountId: Boolean(env.R2_ACCOUNT_ID),
+      hasR2Endpoint: Boolean(env.R2_ENDPOINT),
     });
 
     try {
-      // New instance name to avoid reusing the BusyBox diagnostic instance.
-      const container = getContainer(env.REMARK42_CONTAINER, "remark42-nofuse-main");
+      // New instance name so we do not reuse the no-FUSE container instance.
+      const container = getContainer(env.REMARK42_CONTAINER, "remark42-r2-main");
       return await container.fetch(rewrittenRequest);
     } catch (error) {
-      console.error("Remark42 container proxy failed", {
+      console.error("Remark42 R2 container proxy failed", {
         message: error instanceof Error ? error.message : String(error),
         stack: error instanceof Error ? error.stack : undefined,
       });
 
       return new Response(
-        `Remark42 container proxy failed: ${
+        `Remark42 R2 container proxy failed: ${
           error instanceof Error ? error.message : String(error)
         }`,
         { status: 500 }
