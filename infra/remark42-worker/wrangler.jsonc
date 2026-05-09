@@ -1,13 +1,24 @@
 {
+  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "abuyaareb-remark42",
   "main": "src/index.ts",
-  "compatibility_date": "2026-05-09",
+  "compatibility_date": "2026-05-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "observability": {
+    "enabled": true
+  },
+
+  "vars": {
+    "SITE": "abuyaareb",
+    "REMARK_URL": "https://abuyaareb.org/remark42",
+    "BUCKET_NAME": "abuyaareb-remark42"
+  },
 
   "containers": [
     {
       "class_name": "Remark42Container",
       "image": "./Dockerfile",
-      "instance_type": "lite",
       "max_instances": 1
     }
   ],
@@ -33,21 +44,5 @@
       "pattern": "abuyaareb.org/remark42*",
       "zone_name": "abuyaareb.org"
     }
-  ],
-
-  "vars": {
-    "REMARK_URL": "https://abuyaareb.org/remark42",
-    "SITE": "abuyaareb",
-    "AUTH_ANON": "true",
-    "STORE_BOLT_PATH": "/srv/var/db",
-    "BACKUP_PATH": "/srv/var/backup",
-    "BUCKET_NAME": "abuyaareb-remark42"
-  },
-
-  "observability": {
-    "logs": {
-      "enabled": true,
-      "invocation_logs": true
-    }
-  }
+  ]
 }

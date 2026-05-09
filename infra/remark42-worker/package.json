@@ -1,15 +1,16 @@
 {
-  "name": "abuyaareb-remark42-worker",
+  "name": "abuyaareb-remark42",
   "private": true,
   "type": "module",
   "scripts": {
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@cloudflare/containers": "latest",
-    "wrangler": "latest"
+    "@cloudflare/containers": "^0.3.3"
   },
   "devDependencies": {
-    "typescript": "latest"
+    "typescript": "^5.8.3",
+    "wrangler": "^4.67.0"
   }
 }
