@@ -1,14 +1,11 @@
 ---
 title: "بحث"
+layout: "pagefind-search"
 slug: "search"
-layout: "search"
-outputs:
-    - html
-    - json
-lastmod: 2025-04-05
 menu:
-    main: 
-        weight: 90
-        params:
-            icon: search
+  main:
+    name: "بحث"
+    weight: 90
 ---
+
+<div id="search"></div>

@@ -1,0 +1,42 @@
+{{ define "main" }}
+<main class="main full-width">
+    <article class="main-article">
+        <header class="article-header">
+            <h1 class="article-title">{{ .Title }}</h1>
+        </header>
+
+        <section class="article-content">
+            {{ .Content }}
+        </section>
+    </article>
+</main>
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+    new PagefindUI({
+        element: "#search",
+        showSubResults: true,
+        showImages: false,
+        excerptLength: 30,
+        translations: {
+            placeholder: "الاسمية عند ابن تيمية",
+            zero_results: "لا توجد نتائج لـ [SEARCH_TERM]",
+            load_more: "تحميل المزيد من النتائج",
+            search_label: "بحث"
+        },
+        processTerm: function (term) {
+            return term
+                .replace(/[إأآٱ]/g, "ا")
+                .replace(/ى/g, "ي")
+                .replace(/ؤ/g, "و")
+                .replace(/ئ/g, "ي")
+                .replace(/ة/g, "ه")
+                .replace(/[ًٌٍَُِّْـ]/g, "");
+        }
+    });
+});
+</script>
+{{ end }}
