@@ -75,7 +75,6 @@ disableAliases = true
 
   [params.widgets]
   homepage = [ 
-    { type = "search" },
     { type = "archives", params = { limit = 25 } },
     { type = "categories"}
   ]
