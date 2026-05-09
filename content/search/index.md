@@ -8,4 +8,4 @@ menu:
         params:
             icon: search
 ---
-<div id="search"></div>
+<pagefind-searchbox></pagefind-searchbox>
