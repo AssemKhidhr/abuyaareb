@@ -22,33 +22,21 @@ class Remark42Container extends Container {
   enableInternet = true;
 
   envVars = {
-    // Defaults are safe for your current PoC. Override from wrangler vars if needed.
     REMARK_URL: this.env.REMARK_URL || "https://abuyaareb.org/remark42",
     SITE: this.env.SITE || "abuyaareb",
 
-    // Minimal usable anonymous-auth PoC.
     AUTH_ANON: "true",
-    AUTH_EMAIL_ENABLE: "false",
-    AUTH_TELEGRAM: "false",
-    AUTH_GOOGLE_CID: "",
-    AUTH_FACEBOOK_CID: "",
-    AUTH_GITHUB_CID: "",
 
-    // Remark42 storage paths.
     STORE_TYPE: "bolt",
     STORE_BOLT_PATH: "/srv/var/db",
     BACKUP_PATH: "/srv/var/backup",
 
-    // Required by Remark42.
     SECRET: this.env.SECRET,
 
-    // Required by our FUSE/R2 mount script.
     BUCKET_NAME: this.env.BUCKET_NAME || "abuyaareb-remark42",
     R2_ENDPOINT: this.env.R2_ENDPOINT,
     AWS_ACCESS_KEY_ID: this.env.AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY: this.env.AWS_SECRET_ACCESS_KEY,
-
-    // AWS-compatible S3 clients often expect this.
     AWS_REGION: "auto",
   };
 
@@ -65,6 +53,28 @@ class Remark42Container extends Container {
   }
 }
 
+function rewriteForContainer(request: Request): Request {
+  const incomingUrl = new URL(request.url);
+  const targetUrl = new URL(request.url);
+
+  let path = incomingUrl.pathname;
+
+  if (path === "/remark42") {
+    path = "/";
+  } else if (path.startsWith("/remark42/")) {
+    path = path.slice("/remark42".length);
+  }
+
+  // Normalize empty path.
+  if (!path) {
+    path = "/";
+  }
+
+  targetUrl.pathname = path;
+
+  return new Request(targetUrl.toString(), request);
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -74,7 +84,7 @@ export default {
     }
 
     console.log("Routing request to Remark42 container", {
-      path: url.pathname,
+      originalPath: url.pathname,
       hasSecret: Boolean(env.SECRET),
       hasR2Endpoint: Boolean(env.R2_ENDPOINT),
       hasAccessKey: Boolean(env.AWS_ACCESS_KEY_ID),
@@ -83,19 +93,22 @@ export default {
 
     try {
       const container = getContainer(env.REMARK42_CONTAINER, "remark42-main");
+      const rewrittenRequest = rewriteForContainer(request);
 
-      // Use the Container class fetch() wrapper, not containerFetch().
-      // Cloudflare notes that fetch() starts the container if needed and forwards
-      // to defaultPort; it is also the right path for WebSockets.
-      return await container.fetch(request);
+      console.log("Forwarding rewritten request to container", {
+        originalPath: url.pathname,
+        rewrittenPath: new URL(rewrittenRequest.url).pathname,
+      });
+
+      return await container.fetch(rewrittenRequest);
     } catch (error) {
-      console.error("Failed to route to Remark42 container", {
+      console.error("Error proxying request to container", {
         message: error instanceof Error ? error.message : String(error),
         stack: error instanceof Error ? error.stack : undefined,
       });
 
       return new Response(
-        `Failed to start or reach Remark42 container: ${
+        `Error proxying request to container: ${
           error instanceof Error ? error.message : String(error)
         }`,
         { status: 500 }
