@@ -1,0 +1,29 @@
+{{ define "main" }}
+<main class="main full-width">
+    <article class="main-article">
+        <header class="article-header">
+            <h1 class="article-title">{{ .Title }}</h1>
+        </header>
+
+        <section class="article-content">
+            {{ .Content }}
+        </section>
+    </article>
+</main>
+
+<link href="/pagefind/pagefind-component-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-component-ui.js" type="module"></script>
+
+<style>
+    pagefind-searchbox {
+        --pagefind-ui-primary: var(--accent-color);
+        --pagefind-ui-text: var(--card-text-color-main);
+        --pagefind-ui-background: var(--card-background);
+        --pagefind-ui-border: var(--card-separator-color);
+        --pagefind-ui-border-radius: var(--card-border-radius);
+        --pagefind-ui-font: var(--base-font-family);
+        display: block;
+        margin-top: 1.5rem;
+    }
+</style>
+{{ end }}
