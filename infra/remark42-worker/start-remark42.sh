@@ -7,55 +7,66 @@ echo "Remark42 bootstrap: checking required variables"
 : "${SECRET:?SECRET is required}"
 : "${REMARK_URL:?REMARK_URL is required}"
 : "${SITE:?SITE is required}"
-: "${R2_BUCKET_NAME:?R2_BUCKET_NAME is required}"
-: "${R2_ENDPOINT:?R2_ENDPOINT is required}"
-: "${AWS_ACCESS_KEY_ID:?AWS_ACCESS_KEY_ID is required}"
-: "${AWS_SECRET_ACCESS_KEY:?AWS_SECRET_ACCESS_KEY is required}"
 
-echo "Remark42 bootstrap: preparing R2 mount"
+echo "Remark42 bootstrap: R2 env check"
+echo "R2_BUCKET_NAME=${R2_BUCKET_NAME:-}"
+echo "R2_ACCOUNT_ID=${R2_ACCOUNT_ID:-}"
+echo "R2_ENDPOINT=${R2_ENDPOINT:-}"
+echo "AWS_ACCESS_KEY_ID is set: $([ -n "${AWS_ACCESS_KEY_ID:-}" ] && echo yes || echo no)"
+echo "AWS_SECRET_ACCESS_KEY is set: $([ -n "${AWS_SECRET_ACCESS_KEY:-}" ] && echo yes || echo no)"
 
 mkdir -p /mnt/r2
+mkdir -p /srv/var/db
+mkdir -p /srv/var/backup
 
-echo "Remark42 bootstrap: mounting R2 bucket ${R2_BUCKET_NAME} at /mnt/r2"
+USE_R2="false"
 
-/usr/local/bin/tigrisfs \
-  --endpoint "${R2_ENDPOINT}" \
-  -f "${R2_BUCKET_NAME}" \
-  /mnt/r2 &
+if [ -n "${R2_BUCKET_NAME:-}" ] && [ -n "${R2_ENDPOINT:-}" ] && [ -n "${AWS_ACCESS_KEY_ID:-}" ] && [ -n "${AWS_SECRET_ACCESS_KEY:-}" ]; then
+  echo "Remark42 bootstrap: attempting R2 mount"
 
-TIGRISFS_PID="$!"
+  /usr/local/bin/tigrisfs \
+    --endpoint "${R2_ENDPOINT}" \
+    -f "${R2_BUCKET_NAME}" \
+    /mnt/r2 &
 
-echo "Remark42 bootstrap: waiting for R2 mount"
+  TIGRISFS_PID="$!"
 
-mounted="false"
-i=0
-while [ "$i" -lt 20 ]; do
-  if kill -0 "$TIGRISFS_PID" 2>/dev/null && mountpoint -q /mnt/r2; then
-    mounted="true"
-    break
-  fi
+  echo "Remark42 bootstrap: tigrisfs pid=${TIGRISFS_PID}"
+  sleep 5
 
-  sleep 1
-  i=$((i + 1))
-done
-
-if [ "$mounted" != "true" ]; then
-  echo "Remark42 bootstrap: ERROR: R2 mount did not become ready"
-  echo "Remark42 bootstrap: tigrisfs process status:"
+  echo "Remark42 bootstrap: tigrisfs process check"
   ps -ef | grep tigrisfs | grep -v grep || true
-  exit 1
+
+  echo "Remark42 bootstrap: /mnt/r2 listing attempt"
+  ls -lah /mnt/r2 || true
+
+  if kill -0 "$TIGRISFS_PID" 2>/dev/null; then
+    echo "Remark42 bootstrap: tigrisfs is still running"
+    mkdir -p /mnt/r2/remark42/db /mnt/r2/remark42/backup || true
+
+    if date -u +"%Y-%m-%dT%H:%M:%SZ" > /mnt/r2/remark42/container-last-started.txt 2>/tmp/r2-write-error.log; then
+      echo "Remark42 bootstrap: R2 write test succeeded"
+      USE_R2="true"
+    else
+      echo "Remark42 bootstrap: R2 write test failed"
+      cat /tmp/r2-write-error.log || true
+    fi
+  else
+    echo "Remark42 bootstrap: tigrisfs exited early"
+  fi
+else
+  echo "Remark42 bootstrap: R2 variables incomplete, skipping mount"
 fi
 
-echo "Remark42 bootstrap: R2 mount is ready"
-ls -lah /mnt/r2 || true
-
-echo "Remark42 bootstrap: creating Remark42 storage directories on R2"
-
-mkdir -p /mnt/r2/remark42/db
-mkdir -p /mnt/r2/remark42/backup
-
-# Optional marker file so you can confirm R2 writes from the dashboard.
-date -u +"%Y-%m-%dT%H:%M:%SZ" > /mnt/r2/remark42/container-last-started.txt || true
+if [ "$USE_R2" = "true" ]; then
+  export STORE_BOLT_PATH="/mnt/r2/remark42/db"
+  export BACKUP_PATH="/mnt/r2/remark42/backup"
+  echo "Remark42 bootstrap: using R2-backed storage"
+else
+  export STORE_BOLT_PATH="/srv/var/db"
+  export BACKUP_PATH="/srv/var/backup"
+  echo "Remark42 bootstrap: using LOCAL fallback storage"
+fi
 
 echo "Remark42 bootstrap: preparing frontend placeholders"
 
@@ -68,9 +79,7 @@ if [ -d /srv/web ]; then
 fi
 
 echo "Remark42 bootstrap: starting Remark42 server on port 8080"
-echo "Remark42 bootstrap: REMARK_URL=${REMARK_URL}"
-echo "Remark42 bootstrap: SITE=${SITE}"
-echo "Remark42 bootstrap: STORE_BOLT_PATH=${STORE_BOLT_PATH:-/mnt/r2/remark42/db}"
-echo "Remark42 bootstrap: BACKUP_PATH=${BACKUP_PATH:-/mnt/r2/remark42/backup}"
+echo "Remark42 bootstrap: STORE_BOLT_PATH=${STORE_BOLT_PATH}"
+echo "Remark42 bootstrap: BACKUP_PATH=${BACKUP_PATH}"
 
 exec /srv/remark42 server
