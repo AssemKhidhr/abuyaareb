@@ -1,7 +1,12 @@
-FROM busybox:1.36
+FROM umputun/remark42:latest
 
-COPY www /www
+USER root
+
+COPY start-remark42.sh /start-remark42.sh
+
+RUN sed -i 's/\r$//' /start-remark42.sh \
+    && chmod +x /start-remark42.sh
 
 EXPOSE 8080
 
-CMD ["httpd", "-f", "-p", "0.0.0.0:8080", "-h", "/www"]
+ENTRYPOINT ["/bin/sh", "/start-remark42.sh"]
